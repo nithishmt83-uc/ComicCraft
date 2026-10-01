@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ComicCraft - AI Comic Story Creator</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #6a1b9a;
+        }
+
+        p {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        textarea {
+            height: 100px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 12px;
+            background: #6a1b9a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 17px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🎨 ComicCraft</h1>
+
+    <p>AI Comic Story Creator using Gemini Models</p>
+
+    <form action="/generate" method="post">
+
+        <label>Story Prompt</label>
+        <textarea name="prompt" required
+        placeholder="Enter your comic story idea..."></textarea>
+
+        <label>Character Name</label>
+        <input type="text" name="character" required
+        placeholder="Example: Arun">
+
+        <label>Setting</label>
+        <input type="text" name="setting" required
+        placeholder="Example: Ancient Library">
+
+        <label>Tone</label>
+        <select name="tone">
+            <option>Adventure</option>
+            <option>Comedy</option>
+            <option>Mystery</option>
+            <option>Fantasy</option>
+            <option>Science Fiction</option>
+        </select>
+
+        <label>Art Style</label>
+        <select name="art_style">
+            <option>Colorful comic book</option>
+            <option>Anime</option>
+            <option>Cartoon</option>
+            <option>Manga</option>
+            <option>Realistic</option>
+        </select>
+
+        <button type="submit">
+            🚀 Generate Comic
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

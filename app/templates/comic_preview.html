@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ComicCraft - Comic Preview</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f5f8;
+            color: #222;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 35px 20px;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 48px;
+            color: #4f46c7;
+        }
+
+        .header p {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #666;
+        }
+
+
+        /* =========================
+           TEAM SECTION
+        ========================= */
+
+        .team-section {
+            background: white;
+            border-radius: 18px;
+            padding: 30px;
+            margin-bottom: 35px;
+            text-align: center;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .team-section h2 {
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 28px;
+            color: #4f46c7;
+        }
+
+        .team-leader {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 18px;
+        }
+
+        .team-member {
+            font-size: 17px;
+            margin: 10px 0;
+            color: #444;
+        }
+
+
+        /* =========================
+           COMIC PANELS
+        ========================= */
+
+        .comic-panel {
+            background: white;
+            padding: 22px;
+            margin-bottom: 30px;
+            border-radius: 18px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .comic-panel h2 {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 18px;
+        }
+
+        .comic-panel img {
+            display: block;
+            width: 100%;
+            max-width: 1000px;
+            margin: auto;
+            border-radius: 12px;
+        }
+
+
+        /* =========================
+           STORY
+        ========================= */
+
+        .section {
+            background: white;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 18px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .section h2 {
+            text-align: center;
+            color: #4f46c7;
+        }
+
+        .story-box {
+            background: #fafafa;
+            padding: 20px;
+            border-radius: 12px;
+            line-height: 1.7;
+            white-space: pre-wrap;
+        }
+
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .button-container {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 14px 25px;
+            margin: 8px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 17px;
+            font-weight: bold;
+            background: #4f46c7;
+            color: white;
+        }
+
+        .button:hover {
+            opacity: 0.85;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+            text-align: center;
+            color: #777;
+            margin-top: 40px;
+            padding-bottom: 30px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- ==================================
+         COMICCRAFT HEADER
+    =================================== -->
+
+    <div class="header">
+
+        <h1>🎨 ComicCraft</h1>
+
+        <p>
+            AI Comic Story Creator using Gemini Models
+        </p>
+
+    </div>
+
+
+    <!-- ==================================
+         TEAM COMICCRAFT
+    =================================== -->
+
+    <div class="team-section">
+
+        <h2>👥 Team ComicCraft</h2>
+
+        <div class="team-leader">
+            👑 Team Leader: Nithish Kumar T
+        </div>
+
+        <div class="team-member">
+            Team Member: Jayakrishna B
+        </div>
+
+        <div class="team-member">
+            Team Member: Harish J
+        </div>
+
+        <div class="team-member">
+            Team Member: Rajesh R
+        </div>
+
+        <div class="team-member">
+            Team Member: Kalaivanan K
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         AI GENERATED COMIC PANELS
+    =================================== -->
+
+    {% for image in image_paths %}
+
+    <div class="comic-panel">
+
+        <h2>🖼️ Panel {{ loop.index }}</h2>
+
+        <img
+            src="{{ image }}"
+            alt="Comic Panel {{ loop.index }}"
+        >
+
+    </div>
+
+    {% endfor %}
+
+
+    <!-- ==================================
+         GENERATED STORY
+    =================================== -->
+
+    <div class="section">
+
+        <h2>📖 Generated Comic Story</h2>
+
+        <div class="story-box">
+            {{ story }}
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         COMIC OUTLINE
+    =================================== -->
+
+    <div class="section">
+
+        <h2>📝 Comic Outline</h2>
+
+        <div class="story-box">
+            {{ outline }}
+        </div>
+
+    </div>
+
+
+    <!-- ==================================
+         BUTTONS
+    =================================== -->
+
+    <div class="button-container">
+
+        <a
+            href="{{ pdf_url }}"
+            class="button"
+            target="_blank"
+        >
+            📄 Download Comic PDF
+        </a>
+
+        <a
+            href="/"
+            class="button"
+        >
+            🔄 Create Another Comic
+        </a>
+
+    </div>
+
+
+    <!-- ==================================
+         FOOTER
+    =================================== -->
+
+    <div class="footer">
+
+        <p>
+            🚀 ComicCraft — AI Comic Story Creator
+        </p>
+
+        <p>
+            Powered by Gemini + Cloudflare FLUX
+        </p>
+
+    </div>
+
+
+</div>
+
+</body>
+
+</html>
