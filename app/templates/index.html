@@ -1,114 +1,505 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>ComicCraft - AI Comic Story Creator</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-            margin: 0;
-            padding: 40px;
-        }
+<title>ComicCraft | AI Comic Story Creator</title>
 
-        .container {
-            max-width: 700px;
-            margin: auto;
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
+<style>
 
-        h1 {
-            text-align: center;
-            color: #6a1b9a;
-        }
+* {
+    box-sizing: border-box;
+}
 
-        p {
-            text-align: center;
-        }
+body {
+    margin: 0;
+    background: #000;
+    color: #00ff66;
+    font-family: "Courier New", monospace;
+}
 
-        label {
-            display: block;
-            margin-top: 15px;
-            font-weight: bold;
-        }
+.container {
+    width: 92%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 45px 20px;
+}
 
-        input, textarea, select {
-            width: 100%;
-            padding: 10px;
-            margin-top: 6px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-        }
+/* ---------- HEADER ---------- */
 
-        textarea {
-            height: 100px;
-        }
+.header {
+    text-align: center;
+    padding: 45px 20px;
+    border: 2px solid #00ff66;
+    border-radius: 14px;
+    box-shadow: 0 0 30px rgba(0,255,102,0.30);
+    margin-bottom: 30px;
+}
 
-        button {
-            width: 100%;
-            margin-top: 25px;
-            padding: 12px;
-            background: #6a1b9a;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 17px;
-            cursor: pointer;
-        }
-    </style>
+.header h1 {
+    margin: 0;
+    font-size: 72px;
+    font-weight: bold;
+    letter-spacing: 6px;
+    color: #FFA500 !important;
+    -webkit-text-fill-color: #FFA500 !important;
+    text-shadow: none;
+}
+
+.header h1::before {
+    content: "> ";
+}
+
+.header p {
+    margin-top: 18px;
+    font-size: 22px;
+    color: #8affb5;
+}
+
+/* ---------- STATUS ---------- */
+
+.status {
+    text-align: center;
+    margin: 25px 0 40px;
+    font-size: 17px;
+    line-height: 2;
+}
+
+.status span {
+    margin: 0 12px;
+}
+
+/* ---------- SECTION ---------- */
+
+.section {
+    background: #050505;
+    border: 1px solid #00ff66;
+    border-radius: 14px;
+    padding: 30px;
+    margin-bottom: 35px;
+    box-shadow: 0 0 20px rgba(0,255,102,0.15);
+}
+
+.section-title {
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 30px;
+    color: #00ff66;
+    text-shadow: 0 0 8px rgba(0,255,102,0.5);
+}
+
+/* ---------- FORM ---------- */
+
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 10px;
+    color: #FFA500;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+    width: 100%;
+    background: #000;
+    color: #d0ffdf;
+    border: 1px solid #00aa44;
+    border-radius: 8px;
+    padding: 15px;
+    font-family: "Courier New", monospace;
+    font-size: 16px;
+    outline: none;
+}
+
+.form-textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+    border-color: #00ff66;
+    box-shadow: 0 0 12px rgba(0,255,102,0.25);
+}
+
+.form-select option {
+    background: #000;
+    color: #fff;
+}
+
+/* ---------- GENERATE BUTTON ---------- */
+
+.generate-container {
+    text-align: center;
+    margin-top: 35px;
+}
+
+.generate-button {
+    display: inline-block;
+    padding: 18px 45px;
+    border: 2px solid #00ff66;
+    border-radius: 8px;
+    background: #000;
+    color: #00ff66;
+    font-family: "Courier New", monospace;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.generate-button:hover {
+    background: #00ff66;
+    color: #000;
+    box-shadow: 0 0 25px #00ff66;
+}
+
+/* ---------- INFO ---------- */
+
+.info-box {
+    background: #000;
+    border-left: 5px solid #FFA500;
+    border-radius: 8px;
+    padding: 20px;
+    color: #caffd9;
+    line-height: 1.8;
+}
+
+.info-box strong {
+    color: #FFA500;
+}
+
+/* ---------- FOOTER ---------- */
+
+.footer {
+    text-align: center;
+    border-top: 1px solid #00aa44;
+    padding: 30px 10px;
+    color: #55ff8c;
+    line-height: 1.8;
+}
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 700px) {
+
+    .container {
+        width: 95%;
+        padding: 25px 10px;
+    }
+
+    .header {
+        padding: 30px 15px;
+    }
+
+    .header h1 {
+        font-size: 40px;
+        letter-spacing: 2px;
+    }
+
+    .header p {
+        font-size: 15px;
+    }
+
+    .section {
+        padding: 22px;
+    }
+
+    .section-title {
+        font-size: 23px;
+    }
+
+    .generate-button {
+        width: 100%;
+    }
+}
+
+</style>
+
 </head>
 
 <body>
 
 <div class="container">
 
-    <h1>🎨 ComicCraft</h1>
+    <!-- HEADER -->
 
-    <p>AI Comic Story Creator using Gemini Models</p>
+    <div class="header">
 
-    <form action="/generate" method="post">
+        <h1>COMICCRAFT</h1>
 
-        <label>Story Prompt</label>
-        <textarea name="prompt" required
-        placeholder="Enter your comic story idea..."></textarea>
+        <p>
+            AI COMIC STORY CREATOR USING GEMINI MODELS
+        </p>
 
-        <label>Character Name</label>
-        <input type="text" name="character" required
-        placeholder="Example: Arun">
+    </div>
 
-        <label>Setting</label>
-        <input type="text" name="setting" required
-        placeholder="Example: Ancient Library">
 
-        <label>Tone</label>
-        <select name="tone">
-            <option>Adventure</option>
-            <option>Comedy</option>
-            <option>Mystery</option>
-            <option>Fantasy</option>
-            <option>Science Fiction</option>
-        </select>
+    <!-- STATUS -->
 
-        <label>Art Style</label>
-        <select name="art_style">
-            <option>Colorful comic book</option>
-            <option>Anime</option>
-            <option>Cartoon</option>
-            <option>Manga</option>
-            <option>Realistic</option>
-        </select>
+    <div class="status">
 
-        <button type="submit">
-            🚀 Generate Comic
-        </button>
+        <span>[ SYSTEM ONLINE ]</span>
 
-    </form>
+        <span>[ AI STORY ENGINE READY ]</span>
+
+        <span>[ COMIC ENGINE READY ]</span>
+
+    </div>
+
+
+    <!-- CREATE COMIC -->
+
+    <div class="section">
+
+        <h2 class="section-title">
+            &gt; CREATE_NEW_COMIC
+        </h2>
+
+
+        <form action="/generate" method="post">
+
+
+            <!-- STORY PROMPT -->
+
+            <div class="form-group">
+
+                <label class="form-label">
+                    &gt; STORY_PROMPT
+                </label>
+
+                <textarea
+                    class="form-textarea"
+                    name="prompt"
+                    placeholder="Enter your comic story idea..."
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <!-- CHARACTER -->
+
+            <div class="form-group">
+
+                <label class="form-label">
+                    &gt; CHARACTER_NAME
+                </label>
+
+                <input
+                    class="form-input"
+                    type="text"
+                    name="character"
+                    placeholder="Example: Arun"
+                    required
+                >
+
+            </div>
+
+
+            <!-- SETTING -->
+
+            <div class="form-group">
+
+                <label class="form-label">
+                    &gt; SETTING
+                </label>
+
+                <input
+                    class="form-input"
+                    type="text"
+                    name="setting"
+                    placeholder="Example: Chennai in 2050"
+                    required
+                >
+
+            </div>
+
+
+            <!-- TONE -->
+
+            <div class="form-group">
+
+                <label class="form-label">
+                    &gt; TONE
+                </label>
+
+                <select
+                    class="form-select"
+                    name="tone"
+                    required
+                >
+
+                    <option value="">
+                        -- SELECT TONE --
+                    </option>
+
+                    <option value="Adventure">
+                        Adventure
+                    </option>
+
+                    <option value="Comedy">
+                        Comedy
+                    </option>
+
+                    <option value="Action">
+                        Action
+                    </option>
+
+                    <option value="Fantasy">
+                        Fantasy
+                    </option>
+
+                    <option value="Mystery">
+                        Mystery
+                    </option>
+
+                    <option value="Sci-Fi">
+                        Sci-Fi
+                    </option>
+
+                    <option value="Horror">
+                        Horror
+                    </option>
+
+                    <option value="Emotional">
+                        Emotional
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ART STYLE -->
+
+            <div class="form-group">
+
+                <label class="form-label">
+                    &gt; ART_STYLE
+                </label>
+
+                <select
+                    class="form-select"
+                    name="art_style"
+                    required
+                >
+
+                    <option value="">
+                        -- SELECT ART STYLE --
+                    </option>
+
+                    <option value="Modern comic book">
+                        Modern Comic Book
+                    </option>
+
+                    <option value="Manga">
+                        Manga
+                    </option>
+
+                    <option value="Anime">
+                        Anime
+                    </option>
+
+                    <option value="Cartoon">
+                        Cartoon
+                    </option>
+
+                    <option value="Realistic comic">
+                        Realistic Comic
+                    </option>
+
+                    <option value="Cyberpunk comic">
+                        Cyberpunk Comic
+                    </option>
+
+                    <option value="Fantasy comic">
+                        Fantasy Comic
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- GENERATE -->
+
+            <div class="generate-container">
+
+                <button
+                    type="submit"
+                    class="generate-button"
+                >
+                    [ GENERATE COMIC ]
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- INFO -->
+
+    <div class="section">
+
+        <h2 class="section-title">
+            &gt; AI_COMIC_ENGINE
+        </h2>
+
+        <div class="info-box">
+
+            <strong>ComicCraft</strong> uses AI to transform
+            your story idea into a complete comic experience.
+
+            <br><br>
+
+            &gt; Gemini → Story Outline
+
+            <br>
+
+            &gt; Gemini → Detailed Comic Story
+
+            <br>
+
+            &gt; Cloudflare FLUX → Comic Illustration
+
+            <br>
+
+            &gt; FastAPI → Web Application
+
+            <br>
+
+            &gt; PDF → Downloadable Comic
+
+        </div>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <div class="footer">
+
+        <div>&gt; COMICCRAFT_AI_SYSTEM</div>
+
+        <div>Gemini + FastAPI + Cloudflare FLUX</div>
+
+        <div>© 2026 COMICCRAFT TEAM</div>
+
+    </div>
 
 </div>
 
 </body>
+
 </html>

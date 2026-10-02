@@ -7,17 +7,7 @@ from app.gemini_pro import generate_story
 from app.image_generator import generate_image
 from app.exporters import save_pdf
 
-
-# ==========================================
-# ComicCraft Application
-# ==========================================
-
 app = FastAPI()
-
-
-# ==========================================
-# Static files
-# ==========================================
 
 app.mount(
     "/static",
@@ -25,23 +15,13 @@ app.mount(
     name="static"
 )
 
-
-# ==========================================
-# Templates
-# ==========================================
-
 templates = Jinja2Templates(
     directory="app/templates"
 )
 
 
-# ==========================================
-# Home Page
-# ==========================================
-
 @app.get("/")
 def home(request: Request):
-
     return templates.TemplateResponse(
         request=request,
         name="index.html",
@@ -49,14 +29,9 @@ def home(request: Request):
     )
 
 
-# ==========================================
-# Generate Comic
-# ==========================================
-
 @app.post("/generate")
 async def generate(request: Request):
 
-    # Get form data
     form = await request.form()
 
     prompt = form.get("prompt")
@@ -65,10 +40,9 @@ async def generate(request: Request):
     tone = form.get("tone")
     art_style = form.get("art_style")
 
-
-    # ======================================
-    # STEP 1: Generate 5-panel outline
-    # ======================================
+    # --------------------------------
+    # STEP 1: Generate comic outline
+    # --------------------------------
 
     outline = generate_outline(
         prompt,
@@ -78,31 +52,25 @@ async def generate(request: Request):
         art_style
     )
 
-
-    # ======================================
-    # STEP 2: Generate detailed story
-    # ======================================
+    # --------------------------------
+    # STEP 2: Generate complete story
+    # --------------------------------
 
     story = generate_story(outline)
 
-
-    # ======================================
-    # STEP 3: Generate 5 AI images
-    # ======================================
+    # --------------------------------
+    # STEP 3: Generate ONE large image
+    # --------------------------------
 
     image_paths = []
 
-    for i in range(1, 6):
+    story_context = story[:1200]
 
-        # Keep the prompt within Cloudflare's
-        # maximum prompt length
-        story_context = story[:1200]
+    image_prompt = f"""
+Create ONE large cinematic comic-book illustration
+that visually represents the entire story.
 
-        image_prompt = f"""
-Create a colorful comic-book illustration
-for panel {i}.
-
-Character: {character}
+Main character: {character}
 
 Setting: {setting}
 
@@ -110,53 +78,56 @@ Tone: {tone}
 
 Art style: {art_style}
 
-Panel number: {i}
+The illustration should visually summarize the
+important events of the complete comic story.
 
-Create a scene suitable for this comic.
-Keep the main character appearance
-consistent across all panels.
+Create a professional colorful comic-book composition
+with the main character clearly visible.
 
-Use expressive characters, clear composition,
-cinematic lighting, and detailed comic-book
-artwork.
+Use expressive characters, dramatic composition,
+cinematic lighting, detailed artwork and a polished
+AI comic-book appearance.
+
+Keep the character appearance consistent.
 
 Story context:
 {story_context}
 """
 
-
-        # Generate actual AI image
-        image_path = generate_image(
+    try:
+        generate_image(
             image_prompt,
-            f"panel_{i}.png"
+            "comic_main.png"
         )
 
+        image_paths.append(
+            "/static/images/comic_main.png"
+        )
 
-        # URL used by the webpage
-        image_url = f"/static/images/panel_{i}.png"
+        print("Comic image generated successfully.")
 
-        image_paths.append(image_url)
+    except Exception as e:
+        print(f"Image generation skipped: {e}")
 
-
-    # ======================================
+    # --------------------------------
     # STEP 4: Create PDF
-    # ======================================
+    # --------------------------------
+
+    pdf_image_paths = []
+
+    if image_paths:
+        pdf_image_paths.append(
+            "app/static/images/comic_main.png"
+        )
 
     pdf_path = save_pdf(
-        [
-            "app/static/images/panel_1.png",
-            "app/static/images/panel_2.png",
-            "app/static/images/panel_3.png",
-            "app/static/images/panel_4.png",
-            "app/static/images/panel_5.png"
-        ],
+        pdf_image_paths,
         story
     )
 
-
-    # ======================================
+    # --------------------------------
     # STEP 5: Team Members
-    # ======================================
+    # --------------------------------
 
     team_members = [
         "👑 Team Leader: Nithish Kumar T",
@@ -166,10 +137,9 @@ Story context:
         "👤 Team Member: Kalaivanan K"
     ]
 
-
-    # ======================================
+    # --------------------------------
     # STEP 6: Display Comic Preview
-    # ======================================
+    # --------------------------------
 
     return templates.TemplateResponse(
         request=request,
